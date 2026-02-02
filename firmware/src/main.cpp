@@ -43,7 +43,7 @@ void setup()
     SerialMon.println("Software version: " + String(FIRMWARE_VERSION));
     SerialMon.println();
 
-    appSettings.Load(false);
+    appSettings.Load();
 
     setupLEDs();
     connectionLED_OFF();
@@ -59,16 +59,15 @@ void setup()
 
 void loop()
 {
-
     if (appSettings.opMode == OPERATION_MODES::WIFI_SETUP)
     {
-        // if (millis() - WifiMillis > MAX_WIFI_INACTIVITY * 1000)
-        // {
-        //     SerialMon.println("WiFi mode is now over. Restarting in Normal mode....");
-        //     appSettings.opMode = OPERATION_MODES::NORMAL;
-        //     appSettings.Save();
-        //     ESP.restart();
-        // }
+        if (millis() - WifiMillis > MAX_WIFI_INACTIVITY * 1000)
+        {
+            SerialMon.println("WiFi mode is now over. Restarting in Normal mode....");
+            appSettings.opMode = OPERATION_MODES::NORMAL;
+            appSettings.Save();
+            ESP.restart();
+        }
 
         if (!isAccessPointCreated)
         {
@@ -91,12 +90,6 @@ void loop()
             InitAsyncWebServer();
 
             WifiMillis = millis();
-        }
-        else
-        {
-            loopAsyncWebserver();
-            loopSound();
-            loopGame();
         }
     }
     else if (appSettings.opMode == OPERATION_MODES::NORMAL)

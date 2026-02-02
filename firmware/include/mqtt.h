@@ -6,6 +6,7 @@
 #include "main.h"
 
 #define MQTT_KEEP_ALIVE_PERIOD 60 //  seconds
+#define MQTT_BUFFER_SIZE 1024 * 5
 
 #define MAX_MQTT_TOPIC_LENGTH 192
 

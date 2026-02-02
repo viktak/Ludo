@@ -1,6 +1,7 @@
 #include <Arduino.h>
 
 #include "sound.h"
+#include "main.h"
 
 Buzzer::Melody_t mStartup{.nbNotes = 3, .duration = {200, 200, 200}, .frequency = {E4_NOTE_FREQ, G4_NOTE_FREQ, C5_NOTE_FREQ}};
 Buzzer::Melody_t mPlayerActivated{.nbNotes = 2, .duration = {100, 100}, .frequency = {G4_NOTE_FREQ, C5_NOTE_FREQ}};
@@ -19,32 +20,35 @@ Buzzer myBuzzer;
 
 void PlayMelody(const Melodies melody)
 {
-    switch (melody)
+    if (appSettings.useBeeper)
     {
-    case Melodies::PlayerActivated:
-        myBuzzer.setMelody(&mPlayerActivated);
-        break;
-    case Melodies::PlayerDeactivaed:
-        myBuzzer.setMelody(&mPlayerDeactivated);
-        break;
-    case Melodies::StartGame:
-        myBuzzer.setMelody(&mStartGame);
-        break;
-    case Melodies::SelectMove:
-        myBuzzer.setMelody(&mSelectMove);
-        break;
-    case Melodies::PieceMoves:
-        myBuzzer.setMelody(&mPieceMoves);
-        break;
-    case Melodies::PieceHit:
-        myBuzzer.setMelody(&mPieceHit);
-        break;
-    case Melodies::PlayerFinished:
-        myBuzzer.setMelody(&mPlayerFinished);
-        break;
+        switch (melody)
+        {
+        case Melodies::PlayerActivated:
+            myBuzzer.setMelody(&mPlayerActivated);
+            break;
+        case Melodies::PlayerDeactivaed:
+            myBuzzer.setMelody(&mPlayerDeactivated);
+            break;
+        case Melodies::StartGame:
+            myBuzzer.setMelody(&mStartGame);
+            break;
+        case Melodies::SelectMove:
+            myBuzzer.setMelody(&mSelectMove);
+            break;
+        case Melodies::PieceMoves:
+            myBuzzer.setMelody(&mPieceMoves);
+            break;
+        case Melodies::PieceHit:
+            myBuzzer.setMelody(&mPieceHit);
+            break;
+        case Melodies::PlayerFinished:
+            myBuzzer.setMelody(&mPlayerFinished);
+            break;
 
-    default:
-        break;
+        default:
+            break;
+        }
     }
 }
 

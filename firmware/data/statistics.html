@@ -1,0 +1,939 @@
+﻿<!DOCTYPE html>
+
+<html lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+
+<head>
+    <meta charset="utf-8" />
+    <title>%sitename%</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favico.ico" />
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <script src="bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+    <style>
+        .custom-toggler .navbar-toggler-icon {
+            background-image: url(menu.png)
+        }
+    </style>
+    <script>
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-light">
+            <div class="containerfluid">
+                <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                    <ul class="navbar-nav nav-pills me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="/">Status</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/general-settings.html">General</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/network-settings.html">Network</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown">Game</a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/players-settings.html">Players</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/rules-settings.html">Rules</a>
+                                </li>
+                                <li class="dropdown-divider">
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/saveloadgame.html">Save/Load</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="/statistics.html">Statistics</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tools.html">Tools</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="mt-6 p-3 bg-primary text-white rounded">
+            <h1>%sitename%</h1>
+            <h2>Statistics</h2>
+        </div>
+        <br />
+
+        <div class="mb-3 row">
+            <div class="col-sm-4 h5">Number of players:</div>
+            <div class="col-sm-8">
+                
+                <span class="badge bg-secondary rounded-pill px-3 py-2">%numberofplayers%</span>
+                </div>
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-sm-4 h5">Round:</div>
+            <div class="col-sm-8"><span class="badge bg-secondary rounded-pill px-3 py-2">%round%</span></div>
+        </div>
+
+
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card shadow-sm">
+
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="card-title h4 mb-0">Rolls</h1>
+                        <p class="card-text mb-0 opacity-75">You rolled more sixes than I did!</p><br />
+                        <div class="alert alert-info">
+                            <strong>Rolls</strong> mean the player has rolled that many times X with the die.<br />
+                            <strong>Empty rolls</strong> mean the player has rolled that many times X with the die, but
+                            could not use it for some reason.
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">
+
+                        <!-- Responsive table container for Rolls / Empty rolls -->
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0 align-middle">
+                                <thead>
+                                    <tr class="table-light">
+                                        <th scope="col" class="text-center align-middle border-end"
+                                            style="width: 80px;"></th>
+                                        <th scope="col" class="text-center align-middle" %player0hidden%>
+                                            <div class="rounded py-2 px-3 mx-auto"
+                                                style="color: #ffffff; background-color: %player0color%; max-width: 120px;">
+                                                Player 1
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="text-center align-middle" %player1hidden%>
+                                            <div class="rounded py-2 px-3 mx-auto"
+                                                style="color: #ffffff; background-color: %player1color%; max-width: 120px;">
+                                                Player 2
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="text-center align-middle" %player2hidden%>
+                                            <div class="rounded py-2 px-3 mx-auto"
+                                                style="color: #ffffff; background-color: %player2color%; max-width: 120px;">
+                                                Player 3
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="text-center align-middle" %player3hidden%>
+                                            <div class="rounded py-2 px-3 mx-auto"
+                                                style="color: #ffffff; background-color: %player3color%; max-width: 120px;">
+                                                Player 4
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="text-center align-middle" %player4hidden%>
+                                            <div class="rounded py-2 px-3 mx-auto"
+                                                style="color: #ffffff; background-color: %player4color%; max-width: 120px;">
+                                                Player 5
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="text-center align-middle" %player5hidden%>
+                                            <div class="rounded py-2 px-3 mx-auto"
+                                                style="color: #ffffff; background-color: %player5color%; max-width: 120px;">
+                                                Player 6
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Row 1 -->
+                                    <tr>
+                                        <th scope="row" class="text-center border-end bg-light align-middle">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <i class="mdi mdi-dice-1 fs-1 text-primary" data-bs-toggle="tooltip"
+                                                    title="1"></i>
+                                            </div>
+                                        </th>
+                                        <!-- Player 1 -->
+                                        <td class="text-center align-middle" %player0hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls10%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls10%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 2 -->
+                                        <td class="text-center align-middle" %player1hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls11%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls11%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 3 -->
+                                        <td class="text-center align-middle" %player2hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls12%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls12%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 4 -->
+                                        <td class="text-center align-middle" %player3hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls13%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls13%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 5 -->
+                                        <td class="text-center align-middle" %player4hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls14%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls14%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 6 -->
+                                        <td class="text-center align-middle" %player5hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls15%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls15%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 2 -->
+                                    <tr>
+                                        <th scope="row" class="text-center border-end bg-light align-middle">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <i class="mdi mdi-dice-2 fs-1 text-primary" data-bs-toggle="tooltip"
+                                                    title="2"></i>
+                                            </div>
+                                        </th>
+                                        <!-- Player 1 -->
+                                        <td class="text-center align-middle" %player0hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls20%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls20%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 2 -->
+                                        <td class="text-center align-middle" %player1hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls21%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls21%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 3 -->
+                                        <td class="text-center align-middle" %player2hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls22%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls22%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 4 -->
+                                        <td class="text-center align-middle" %player3hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls23%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls23%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 5 -->
+                                        <td class="text-center align-middle" %player4hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls24%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls24%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 6 -->
+                                        <td class="text-center align-middle" %player5hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls25%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls25%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 3 -->
+                                    <tr>
+                                        <th scope="row" class="text-center border-end bg-light align-middle">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <i class="mdi mdi-dice-3 fs-1 text-primary" data-bs-toggle="tooltip"
+                                                    title="3"></i>
+                                            </div>
+                                        </th>
+                                        <!-- Player 1 -->
+                                        <td class="text-center align-middle" %player0hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls30%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls30%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 2 -->
+                                        <td class="text-center align-middle" %player1hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls31%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls31%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 3 -->
+                                        <td class="text-center align-middle" %player2hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls32%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls32%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 4 -->
+                                        <td class="text-center align-middle" %player3hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls33%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls33%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 5 -->
+                                        <td class="text-center align-middle" %player4hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls34%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls34%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 6 -->
+                                        <td class="text-center align-middle" %player5hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls35%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls35%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 4 -->
+                                    <tr>
+                                        <th scope="row" class="text-center border-end bg-light align-middle">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <i class="mdi mdi-dice-4 fs-1 text-primary" data-bs-toggle="tooltip"
+                                                    title="4"></i>
+                                            </div>
+                                        </th>
+                                        <!-- Player 1 -->
+                                        <td class="text-center align-middle" %player0hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls40%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls40%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 2 -->
+                                        <td class="text-center align-middle" %player1hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls41%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls41%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 3 -->
+                                        <td class="text-center align-middle" %player2hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls42%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls42%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 4 -->
+                                        <td class="text-center align-middle" %player3hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls43%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls43%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 5 -->
+                                        <td class="text-center align-middle" %player4hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls44%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls44%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 6 -->
+                                        <td class="text-center align-middle" %player5hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls45%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls45%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 5 -->
+                                    <tr>
+                                        <th scope="row" class="text-center border-end bg-light align-middle">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <i class="mdi mdi-dice-5 fs-1 text-primary" data-bs-toggle="tooltip"
+                                                    title="5"></i>
+                                            </div>
+                                        </th>
+                                        <!-- Player 1 -->
+                                        <td class="text-center align-middle" %player0hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls50%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls50%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 2 -->
+                                        <td class="text-center align-middle" %player1hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls51%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls51%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 3 -->
+                                        <td class="text-center align-middle" %player2hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls52%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls52%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 4 -->
+                                        <td class="text-center align-middle" %player3hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls53%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls53%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 5 -->
+                                        <td class="text-center align-middle" %player4hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls54%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls54%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 6 -->
+                                        <td class="text-center align-middle" %player5hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls55%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls55%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 6 -->
+                                    <tr>
+                                        <th scope="row" class="text-center border-end bg-light align-middle">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <i class="mdi mdi-dice-6 fs-1 text-primary" data-bs-toggle="tooltip"
+                                                    title="6"></i>
+                                            </div>
+                                        </th>
+                                        <!-- Player 1 -->
+                                        <td class="text-center align-middle" %player0hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls60%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls60%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 2 -->
+                                        <td class="text-center align-middle" %player1hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls61%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls61%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 3 -->
+                                        <td class="text-center align-middle" %player2hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls62%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls62%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 4 -->
+                                        <td class="text-center align-middle" %player3hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls63%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls63%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 5 -->
+                                        <td class="text-center align-middle" %player4hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls64%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls64%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 6 -->
+                                        <td class="text-center align-middle" %player5hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Rolls">%rolls65%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty rolls">%emptyrolls65%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Pips (Totals) -->
+                                    <tr>
+                                        <th scope="row" class="text-center fw-bold border-end bg-light align-middle">
+                                            Pips</th>
+                                        <!-- Player 1 -->
+                                        <td class="text-center align-middle" %player0hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Total pips">%totalpips0%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty pips">%emptypips0%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 2 -->
+                                        <td class="text-center align-middle" %player1hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Total pips">%totalpips1%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty pips">%emptypips1%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 3 -->
+                                        <td class="text-center align-middle" %player2hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Total pips">%totalpips2%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty pips">%emptypips2%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 4 -->
+                                        <td class="text-center align-middle" %player3hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Total pips">%totalpips3%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty pips">%emptypips3%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 5 -->
+                                        <td class="text-center align-middle" %player4hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Total pips">%totalpips4%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty pips">%emptypips4%</span>
+                                            </div>
+                                        </td>
+                                        <!-- Player 6 -->
+                                        <td class="text-center align-middle" %player5hidden%>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <span class="badge bg-success rounded-pill px-3 py-2"
+                                                    data-bs-toggle="tooltip" title="Total pips">%totalpips5%</span>
+                                                <span class="text-muted">/</span>
+                                                <span class="badge bg-warning rounded-pill px-3 py-2 text-muted"
+                                                    data-bs-toggle="tooltip" title="Empty pips">%emptypips5%</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <br>
+
+                <div class="card shadow-sm">
+
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="card-title h4 mb-0">Hits</h1>
+                        <p class="card-text mb-0 opacity-75">Who hit whom the most?</p>
+                        <br />
+                        <div class="alert alert-info">
+                            The player in the column header is the attacker. The player in the row header is the one
+                            that was kicked out.
+                        </div>
+                    </div>
+
+
+                    <div class="card-body p-0">
+
+                        <!-- Responsive table container for Hits -->
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0 align-middle">
+                                <thead>
+                                    <tr class="table-light">
+                                        <th></th>
+                                        <!-- Column headers: Hit by Player -->
+                                        <th scope="col" class="text-center align-middle" %player0hidden%>
+                                            <div class="rounded py-1 mx-auto"
+                                                style="color: #ffffff; background-color: %player0color%; max-width: 120px;">
+                                                Player 1
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="text-center align-middle" %player1hidden%>
+                                            <div class="rounded py-1 mx-auto"
+                                                style="color: #ffffff; background-color: %player1color%; max-width: 120px;">
+                                                Player 2
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="text-center align-middle" %player2hidden%>
+                                            <div class="rounded py-1 mx-auto"
+                                                style="color: #ffffff; background-color: %player2color%; max-width: 120px;">
+                                                Player 3
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="text-center align-middle" %player3hidden%>
+                                            <div class="rounded py-1 mx-auto"
+                                                style="color: #ffffff; background-color: %player3color%; max-width: 120px;">
+                                                Player 4
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="text-center align-middle" %player4hidden%>
+                                            <div class="rounded py-1 mx-auto"
+                                                style="color: #ffffff; background-color: %player4color%; max-width: 120px;">
+                                                Player 5
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="text-center align-middle" %player5hidden%>
+                                            <div class="rounded py-1 mx-auto"
+                                                style="color: #ffffff; background-color: %player5color%; max-width: 120px;">
+                                                Player 6
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Row 1: Hit Player 1 -->
+                                    <tr %player0hidden%>
+                                        <th scope="row" class="text-center align-middle">
+                                            <div class="rounded py-1 mx-auto"
+                                                style="color: #ffffff; background-color: %player0color%; max-width: 120px;">
+                                                Player 1
+                                            </div>
+                                        </th>
+                                        <!-- Player 1 hit Player 1 -->
+                                        <td class="text-center align-middle">
+                                            <span
+                                                class="badge bg-light text-muted rounded-pill px-3 py-2 opacity-50">-</span>
+                                        </td>
+                                        <!-- Player 1 hit Player 2 -->
+                                        <td class="text-center align-middle" %player1hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit01%</span>
+                                        </td>
+                                        <!-- Player 1 hit Player 3 -->
+                                        <td class="text-center align-middle" %player2hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit02%</span>
+                                        </td>
+                                        <!-- Player 1 hit Player 4 -->
+                                        <td class="text-center align-middle" %player3hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit03%</span>
+                                        </td>
+                                        <!-- Player 1 hit Player 5 -->
+                                        <td class="text-center align-middle" %player4hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit04%</span>
+                                        </td>
+                                        <!-- Player 1 hit Player 6 -->
+                                        <td class="text-center align-middle" %player5hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit05%</span>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 2: Hit Player 2 -->
+                                    <tr %player1hidden%>
+                                        <th scope="row" class="text-center align-middle">
+                                            <div class="rounded py-1 mx-auto"
+                                                style="color: #ffffff; background-color: %player1color%; max-width: 120px;">
+                                                Player 2
+                                            </div>
+                                        </th>
+                                        <!-- Player 2 hit Player 1 -->
+                                        <td class="text-center align-middle" %player0hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit10%</span>
+                                        </td>
+                                        <!-- Player 2 hit Player 2 -->
+                                        <td class="text-center align-middle">
+                                            <span
+                                                class="badge bg-light text-muted rounded-pill px-3 py-2 opacity-50">-</span>
+                                        </td>
+                                        <!-- Player 2 hit Player 3 -->
+                                        <td class="text-center align-middle" %player2hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit12%</span>
+                                        </td>
+                                        <!-- Player 2 hit Player 4 -->
+                                        <td class="text-center align-middle" %player3hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit13%</span>
+                                        </td>
+                                        <!-- Player 2 hit Player 5 -->
+                                        <td class="text-center align-middle" %player4hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit14%</span>
+                                        </td>
+                                        <!-- Player 2 hit Player 6 -->
+                                        <td class="text-center align-middle" %player5hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit15%</span>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 3: Hit Player 3 -->
+                                    <tr %player2hidden%>
+                                        <th scope="row" class="text-center align-middle">
+                                            <div class="rounded py-1 mx-auto"
+                                                style="color: #ffffff; background-color: %player2color%; max-width: 120px;">
+                                                Player 3
+                                            </div>
+                                        </th>
+                                        <!-- Player 3 hit Player 1 -->
+                                        <td class="text-center align-middle" %player0hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit20%</span>
+                                        </td>
+                                        <!-- Player 3 hit Player 2 -->
+                                        <td class="text-center align-middle" %player1hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit21%</span>
+                                        </td>
+                                        <!-- Player 3 hit Player 3 -->
+                                        <td class="text-center align-middle">
+                                            <span
+                                                class="badge bg-light text-muted rounded-pill px-3 py-2 opacity-50">-</span>
+                                        </td>
+                                        <!-- Player 3 hit Player 4 -->
+                                        <td class="text-center align-middle" %player3hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit23%</span>
+                                        </td>
+                                        <!-- Player 3 hit Player 5 -->
+                                        <td class="text-center align-middle" %player4hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit24%</span>
+                                        </td>
+                                        <!-- Player 3 hit Player 6 -->
+                                        <td class="text-center align-middle" %player5hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit25%</span>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 4: Hit Player 4 -->
+                                    <tr %player3hidden%>
+                                        <th scope="row" class="text-center align-middle">
+                                            <div class="rounded py-1 mx-auto"
+                                                style="color: #ffffff; background-color: %player3color%; max-width: 120px;">
+                                                Player 4
+                                            </div>
+                                        </th>
+                                        <!-- Player 4 hit Player 1 -->
+                                        <td class="text-center align-middle" %player0hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit30%</span>
+                                        </td>
+                                        <!-- Player 4 hit Player 2 -->
+                                        <td class="text-center align-middle" %player1hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit31%</span>
+                                        </td>
+                                        <!-- Player 4 hit Player 3 -->
+                                        <td class="text-center align-middle" %player2hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit32%</span>
+                                        </td>
+                                        <!-- Player 4 hit Player 4 -->
+                                        <td class="text-center align-middle">
+                                            <span
+                                                class="badge bg-light text-muted rounded-pill px-3 py-2 opacity-50">-</span>
+                                        </td>
+                                        <!-- Player 4 hit Player 5 -->
+                                        <td class="text-center align-middle" %player4hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit34%</span>
+                                        </td>
+                                        <!-- Player 4 hit Player 6 -->
+                                        <td class="text-center align-middle" %player5hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit35%</span>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 5: Hit Player 5 -->
+                                    <tr %player4hidden%>
+                                        <th scope="row" class="text-center align-middle">
+                                            <div class="rounded py-1 mx-auto"
+                                                style="color: #ffffff; background-color: %player4color%; max-width: 120px;">
+                                                Player 5
+                                            </div>
+                                        </th>
+                                        <!-- Player 5 hit Player 1 -->
+                                        <td class="text-center align-middle" %player0hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit40%</span>
+                                        </td>
+                                        <!-- Player 5 hit Player 2 -->
+                                        <td class="text-center align-middle" %player1hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit41%</span>
+                                        </td>
+                                        <!-- Player 5 hit Player 3 -->
+                                        <td class="text-center align-middle" %player2hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit42%</span>
+                                        </td>
+                                        <!-- Player 5 hit Player 4 -->
+                                        <td class="text-center align-middle" %player3hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit43%</span>
+                                        </td>
+                                        <!-- Player 5 hit Player 5 -->
+                                        <td class="text-center align-middle">
+                                            <span
+                                                class="badge bg-light text-muted rounded-pill px-3 py-2 opacity-50">-</span>
+                                        </td>
+                                        <!-- Player 5 hit Player 6 -->
+                                        <td class="text-center align-middle" %player5hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit45%</span>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 6: Hit Player 6 -->
+                                    <tr %player5hidden%>
+                                        <th scope="row" class="text-center align-middle">
+                                            <div class="rounded py-1 mx-auto"
+                                                style="color: #ffffff; background-color: %player5color%; max-width: 120px;">
+                                                Player 6
+                                            </div>
+                                        </th>
+                                        <!-- Player 6 hit Player 1 -->
+                                        <td class="text-center align-middle" %player0hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit50%</span>
+                                        </td>
+                                        <!-- Player 6 hit Player 2 -->
+                                        <td class="text-center align-middle" %player1hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit51%</span>
+                                        </td>
+                                        <!-- Player 6 hit Player 3 -->
+                                        <td class="text-center align-middle" %player2hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit52%</span>
+                                        </td>
+                                        <!-- Player 6 hit Player 4 -->
+                                        <td class="text-center align-middle" %player3hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit53%</span>
+                                        </td>
+                                        <!-- Player 6 hit Player 5 -->
+                                        <td class="text-center align-middle" %player4hidden%>
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">%hit54%</span>
+                                        </td>
+                                        <!-- Player 6 hit Player 6 -->
+                                        <td class="text-center align-middle">
+                                            <span
+                                                class="badge bg-light text-muted rounded-pill px-3 py-2 opacity-50">-</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <br />
+        <small class='well well-sm'>
+            (c)2026 Viktor Takacs - <a href='https://diy.viktak.com' target='_blank'>diy.viktak.com</a>
+        </small>
+    </div>
+</body>
+
+</html>

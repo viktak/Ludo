@@ -1,0 +1,338 @@
+﻿<!DOCTYPE html>
+
+<html lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+
+<head>
+    <meta charset="utf-8" />
+    <title>%sitename%</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favico.ico" />
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <script src="bootstrap.bundle.min.js"></script>
+    <style>
+        .custom-toggler .navbar-toggler-icon {
+            background-image: url(menu.png)
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-light">
+            <div class="container-fluid">
+                <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                    <ul class="navbar-nav nav-pills me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="/">Status</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/general-settings.html">General</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/network-settings.html">Network</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown">Game</a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/players-settings.html">Players</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/rules-settings.html">Rules</a>
+                                </li>
+                                <li class="dropdown-divider">
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="/saveloadgame.html">Save/Load</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/statistics.html">Statistics</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tools.html">Tools</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="mt-6 p-3 bg-primary text-white rounded">
+            <h1>%sitename%</h1>
+            <h2>Save/Load Game</h2>
+        </div>
+        <br />
+        <div class="alert alert-primary">
+            To save the current game, click on the <strong>Save</strong> button of the desired slot. Note: If the slot
+            already contains a saved game, it will be overwritten. <br />A game can be saved any time. However, a loaded
+            game will always resume from the
+            beginning of the turn during which it was saved.
+        </div>
+        <form id="uploadForm" class="form-horizontal" method="post" enctype="multipart/form-data">
+
+            <div class="row gx-4">
+                <div class="col-sm-12 mt-2 p-4 text-bg-light text-dark rounded border border-light shadow-sm">
+                    <!-- Header with title and badge -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <div class="h4 mb-0"></div>
+                        </div>
+                        <div>
+                            <h1><span class="badge bg-warning">Current game</span></h2>
+                        </div>
+                    </div>
+
+                    <!-- Download section -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="flex-grow-1 me-3">
+                            <div class="mb-0">Download the current game:</div>
+                        </div>
+                        <div class="flex-shrink-0" style="flex-basis: 120px;">
+                            <button type="submit" class="btn btn-primary w-100" id="downloadCurrent"
+                                name="downloadCurrent" %downloadcurrentdisabled%>Download</button>
+                        </div>
+                    </div>
+
+                    <!-- Upload section -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="flex-grow-1 me-3">
+                            <div class="mb-0">Upload a previously downloaded game:</div>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="uploadCurrent" name="uploadCurrent"
+                                aria-describedby="uploadCurrentButton" aria-label="Upload" accept=".json">
+                            <div class="col-sm-1"></div>
+                            <div class="flex-shrink-0" style="flex-basis: 120px;">
+                                <button type="submit" class="btn btn-primary w-100" id="uploadCurrentButton"
+                                    name="uploadCurrentButton">Upload</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row gx-4">
+
+                <div class="col-sm-6 mt-2 p-4 text-bg-light text-dark rounded border border-light shadow-sm">
+                    <!-- Header with title and badge -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <div class="h4 mb-0">%game0line0%</div>
+                        </div>
+                        <div>
+                            <h1><span class="badge bg-warning">Slot #1</span></h2>
+                        </div>
+                    </div>
+
+                    <!-- Download section -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="flex-grow-1 me-3">
+                            <div class="h5 mb-0">%game0line1%</div>
+                        </div>
+                        <div class="flex-shrink-0" style="flex-basis: 120px;">
+                            <button type="submit" class="btn btn-primary w-100" id="download0" name="download0"
+                                %loaddisabled0%>Download</button>
+                        </div>
+                    </div>
+                    <!-- Load section -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="flex-grow-1">
+                            <div class="h6 mb-0">%game0line2%</div>
+                        </div>
+                        <div class="flex-shrink-0" style="flex-basis: 120px;">
+                            <input type='submit' class='btn btn-primary w-100' id="load0" name="load0" value='Load'
+                                onclick="javascript: if (!confirm('Loading a game means you lose the current game. Are you sure you want to continue?')) { return false; }"
+                                %loaddisabled0%>
+                        </div>
+                    </div>
+
+                    <!-- Save section -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h6 mb-0">%game0line3%</div>
+                        </div>
+                        <div class="flex-shrink-0" style="flex-basis: 120px;">
+                            <input type='submit' class='btn btn-secondary w-100' id="save0" name="save0" value='Save'
+                                %savedisabled0%>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-sm-6 mt-2 p-4 text-bg-light text-dark rounded border border-light shadow-sm">
+                    <!-- Header with title and badge -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <div class="h4 mb-0">%game1line0%</div>
+                        </div>
+                        <div>
+                            <h1><span class="badge bg-warning">Slot #2</span></h1>
+                        </div>
+                    </div>
+
+                    <!-- Download section -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="flex-grow-1">
+                            <div class="h5 mb-0">%game1line1%</div>
+                        </div>
+                        <div class="flex-shrink-0" style="flex-basis: 120px;">
+                            <button type="submit" class="btn btn-primary w-100" id="download1" name="download1"
+                                %loaddisabled1%>Download</button>
+                        </div>
+                    </div>
+
+                    <!-- Load section -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="flex-grow-1">
+                            <div class="h6 mb-0">%game1line2%</div>
+                        </div>
+                        <div class="flex-shrink-0" style="flex-basis: 120px;">
+                            <button type="submit" class="btn btn-primary w-100" id="load1" name="load1"
+                                onclick="javascript: if (!confirm('Loading a game means you lose the current game. Are you sure you want to continue?')) { return false; }"
+                                %loaddisabled1%>Load</button>
+                        </div>
+                    </div>
+
+                    <!-- Save section -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h6 mb-0">%game1line3%</div>
+                        </div>
+                        <div class="flex-shrink-0" style="flex-basis: 120px;">
+                            <button type="submit" class="btn btn-secondary w-100" id="save1" name="save1"
+                                %savedisabled1%>Save</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+
+
+                <div class="col-sm-6 mt-2 p-4 text-bg-light text-dark rounded border border-light shadow-sm">
+                    <!-- Header with title and badge -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <div class="h4 mb-0">%game2line0%</div>
+                        </div>
+                        <div>
+                            <h1><span class="badge bg-warning">Slot #3</span></h2>
+                        </div>
+                    </div>
+
+                    <!-- Download section -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="flex-grow-1">
+                            <div class="h5 mb-0">%game2line1%</div>
+                        </div>
+                        <div class="flex-shrink-0" style="flex-basis: 120px;">
+                            <button type="submit" class="btn btn-primary w-100" id="download2" name="download2"
+                                %loaddisabled2%>Download</button>
+                        </div>
+                    </div>
+
+                    <!-- Load section -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="flex-grow-1">
+                            <div class="h6 mb-0">%game2line2%</div>
+                        </div>
+                        <div class="flex-shrink-0" style="flex-basis: 120px;">
+                            <input type='submit' class='btn btn-primary w-100' id="load2" name="load2" value='Load'
+                                onclick="javascript: if (!confirm('Loading a game means you lose the current game. Are you sure you want to continue?')) { return false; }"
+                                %loaddisabled2%>
+                        </div>
+                    </div>
+
+                    <!-- Save section -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h6 mb-0">%game2line3%</div>
+                        </div>
+                        <div class="flex-shrink-0" style="flex-basis: 120px;">
+                            <input type='submit' class='btn btn-secondary w-100' id="save2" name="save2" value='Save'
+                                %savedisabled2%>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-6 mt-2 p-4 text-bg-light text-dark rounded border border-light shadow-sm">
+                    <!-- Header with title and badge -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <div class="h4 mb-0">%game3line0%</div>
+                        </div>
+                        <div>
+                            <h1><span class="badge bg-warning">Slot #4</span></h2>
+                        </div>
+                    </div>
+
+                    <!-- Download section -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="flex-grow-1">
+                            <div class="h5 mb-0">%game3line1%</div>
+                        </div>
+                        <div class="flex-shrink-0" style="flex-basis: 120px;">
+                            <button type="submit" class="btn btn-primary w-100" id="download3" name="download3"
+                                %loaddisabled3%>Download</button>
+                        </div>
+                    </div>
+
+                    <!-- Load section -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="flex-grow-1">
+                            <div class="h6 mb-0">%game3line2%</div>
+                        </div>
+                        <div class="flex-shrink-0" style="flex-basis: 120px;">
+                            <input type='submit' class='btn btn-primary w-100' id="load3" name="load3" value='Load'
+                                onclick="javascript: if (!confirm('Loading a game means you lose the current game. Are you sure you want to continue?')) { return false; }"
+                                %loaddisabled3%>
+                        </div>
+                    </div>
+
+                    <!-- Save section -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="h6 mb-0">%game3line3%</div>
+                        </div>
+                        <div class="flex-shrink-0" style="flex-basis: 120px;">
+                            <input type='submit' class='btn btn-secondary w-100' id="save3" name="save3" value='Save'
+                                %savedisabled3%>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <br />
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <input type='submit' class='btn btn-danger' value='Delete all slots' id="deleteAll" name="deleteAll"
+                    onclick="javascript: if (!confirm('Are you sure you want to delete all your saved games? This action cannot be undone.')) { return false; }">
+            </div>
+
+            <br />
+
+        </form>
+        <small class='well well-sm'>
+            (c)2026 Viktor Takacs - <a href='https://diy.viktak.com' target='_blank'>diy.viktak.com</a>
+        </small>
+
+    </div>
+</body>
+
+</html>

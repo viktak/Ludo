@@ -23,7 +23,6 @@
 
 #define PLAYER_HOME_POSITION 5 // This is the position where a piece enters the game from the garage
 
-// #define NUMBEROFPLAYERS 6
 #define NUMBEROFPIECESPERPLAYER 4
 
 #define STARTUPANIMATIONSPEED 400
@@ -52,7 +51,7 @@ extern GameStages Stage;
 extern uint8_t DieValue;
 extern GameStatistics Statistics;
 
-extern unsigned long gameID;
+extern char gameID[25];
 
 extern NeoPixelBus<NeoGrbwFeature, Neo800KbpsMethod> strip;
 
@@ -99,11 +98,9 @@ extern Player Players[NUMBEROFPLAYERS];
 extern uint8_t CurrentPlayerID;
 
 int16_t GetNextPositionByPiece(const uint8_t PlayerID, const uint16_t piece);
-
 int8_t GetNextPossibleMove();
 int8_t GetPlayerByPosition(const uint16_t pos);
 int8_t GetPieceByPosition(const uint16_t pos);
-void ShowAttackedTiles();
 void ShowAttackingPieces();
 uint8_t CalculatePossibleMoves(const uint8_t playerID, const uint8_t dia);
 void TogglePlayerVisibility(const uint8_t playerID);
@@ -113,6 +110,8 @@ int16_t GetNextPositionByPiece(const uint8_t playerID, const uint16_t piece);
 int8_t GetLastPieceInGarage(const uint8_t playerID);
 bool IsPlayerFinished(const uint8_t playerID);
 void MovePieceByNumber(const uint8_t playerID, const uint16_t piece, const uint8_t die);
+
+uint8_t GetNumberOfActivePlayers();
 
 void RefreshPieces(const uint8_t playerID);
 

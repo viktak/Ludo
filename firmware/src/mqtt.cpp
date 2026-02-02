@@ -11,10 +11,12 @@
 #include "game.h"
 #include "gamestatistics.h"
 
-#define MQTT_BUFFER_SIZE 1024 * 5
+
 
 WiFiClient client;
 PubSubClient PSclient(client);
+
+unsigned long heartbeatMillis = 0;
 
 void ConnectToMQTTBroker()
 {
@@ -36,6 +38,9 @@ void ConnectToMQTTBroker()
             sprintf(myTopic, "%s/%s", appSettings.mqttTopic, MQTT_STATE_TOPIC);
             sprintf(msg, "{\"System\":{\"Hostname\":\"%s\",\"Status\":\"online\"}}", appSettings.hostName);
             PSclient.publish(myTopic, msg, true);
+
+            //  Send heartbeat
+            SendHeartbeat();
 
             //  Listening to commands
             sprintf(myTopic, "%s/%s/#", appSettings.mqttTopic, MQTT_COMMAND_TOPIC);
@@ -65,7 +70,7 @@ void SendGameStatus()
 
     //  General
     doc["General"]["DeviceID"] = GetChipID();
-    doc["General"]["GameID"] = gameID;
+    doc["General"]["GameID"] = (String)gameID;
     doc["General"]["numberOfRounds"] = Statistics.Round;
     doc["General"]["currentPlayer"] = CurrentPlayerID;
     doc["General"]["dieValue"] = DieValue;
@@ -82,7 +87,7 @@ void SendGameStatus()
         sprintf(myColor, "#%02x%02x%02x%02x\0", Players[i].Color.R, Players[i].Color.G, Players[i].Color.B, Players[i].Color.W);
         joPlayer["color"] = myColor;
         JsonArray jaPieces = joPlayer["Pieces"].to<JsonArray>();
-        for (size_t j = 0; j < 4; j++)
+        for (size_t j = 0; j < NUMBEROFPIECESPERPLAYER; j++)
             jaPieces.add(Players[i].Pieces[j].GetPosition());
     }
 
@@ -106,7 +111,7 @@ void SendGameStatistics()
 
     //  Game
     doc["Game"]["DeviceID"] = GetChipID();
-    doc["Game"]["GameID"] = gameID;
+    doc["Game"]["GameID"] = (String)gameID;
     doc["Game"]["numberOfRounds"] = Statistics.Round;
 
     //  Players
@@ -144,13 +149,6 @@ void SendGameStatistics()
             joKickedOut[num] = Statistics.Player[i].Kicked[j];
         }
 
-        //  Kicked out by player
-        JsonObject joKickedOutBy = joPlayer["kickedOutBy"].to<JsonObject>();
-        for (size_t j = 0; j < NUMBEROFPLAYERS; j++)
-        {
-            sprintf(num, "%u", j);
-            joKickedOutBy[num] = Statistics.Player[i].KickedBy[j];
-        }
     }
 
     doc.shrinkToFit();
@@ -161,6 +159,56 @@ void SendGameStatistics()
     char myTopic[MAX_MQTT_TOPIC_LENGTH];
     sprintf(myTopic, "%s/%s", appSettings.mqttTopic, MQTT_STATISTICS_TOPIC);
     SendDataToBroker(myTopic, output, false);
+}
+
+void SendHeartbeat()
+{
+    char buffer[MQTT_BUFFER_SIZE];
+    JsonDocument doc;
+
+    JsonObject sysDetails = doc["System"].to<JsonObject>();
+
+    sysDetails["ChipID"] = GetChipID();
+    TimeChangeRule *tcr;
+    time_t localTime = timechangerules::timezones[appSettings.timeZone]->toLocal(now(), &tcr);
+    sysDetails["Time"] = DateTimeToString(localTime);
+    sysDetails["FriendlyName"] = appSettings.friendlyName;
+    sysDetails["Freeheap"] = ESP.getFreeHeap();
+
+    sysDetails["HardwareID"] = HARDWARE_ID;
+    sysDetails["HardwareVersion"] = HARDWARE_VERSION;
+    sysDetails["FirmwareID"] = FIRMWARE_ID;
+    sysDetails["FirmwareVersion"] = FIRMWARE_VERSION;
+    sysDetails["UpTime"] = TimeIntervalToString(millis() / 1000);
+    sysDetails["CPU0_ResetReason"] = GetResetReasonString(rtc_get_reset_reason(0));
+    sysDetails["CPU1_ResetReason"] = GetResetReasonString(rtc_get_reset_reason(1));
+    sysDetails["TIMEZONE"] = appSettings.timeZone;
+    sysDetails["NTPServer"] = appSettings.ntpServer;
+    sysDetails["UseBeeper"] = appSettings.useBeeper;
+
+    JsonObject mqttDetails = doc["MQTT"].to<JsonObject>();
+
+    mqttDetails["Server"] = appSettings.mqttServer;
+    mqttDetails["Port"] = appSettings.mqttPort;
+    mqttDetails["Topic"] = appSettings.mqttTopic;
+    mqttDetails["User"] = appSettings.mqttUserName;
+
+    JsonObject wifiDetails = doc["WiFi"].to<JsonObject>();
+    wifiDetails["SSID"] = appSettings.ssid;
+    wifiDetails["Channel"] = WiFi.channel();
+    wifiDetails["HostName"] = appSettings.hostName;
+    wifiDetails["IP_Address"] = WiFi.localIP().toString();
+    wifiDetails["MAC_Address"] = WiFi.macAddress();
+
+    JsonObject gameDetails = doc["Game"].to<JsonObject>();
+    gameDetails["SafeHome"] = appSettings.rules.IsHomeSafe;
+    gameDetails["AssistedMode"] = appSettings.rules.AssistedMode;
+
+    serializeJson(doc, buffer);
+
+    char myTopic[MAX_MQTT_TOPIC_LENGTH];
+    sprintf(myTopic, "%s/%s", appSettings.mqttTopic, MQTT_HEARTBEAT_TOPIC);
+    SendDataToBroker(myTopic, buffer, false);
 }
 
 void mqttCallback(char *topic, byte *payload, unsigned int len)
@@ -493,6 +541,7 @@ void setupMQTT()
     {
         SerialMon.printf("Could not resize MQTT buffer to %u.\r\n", MQTT_BUFFER_SIZE);
     }
+    heartbeatMillis = millis();
 }
 
 void loopMQTT()
@@ -501,7 +550,16 @@ void loopMQTT()
         return;
 
     if (PSclient.connected())
+    {
         PSclient.loop();
+        if (millis() - heartbeatMillis > appSettings.heartbeatInterval * 1000)
+        {
+            SendHeartbeat();
+            heartbeatMillis = millis();
+        }
+    }
     else
+    {
         ConnectToMQTTBroker();
+    }
 }

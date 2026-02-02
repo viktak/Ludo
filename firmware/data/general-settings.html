@@ -44,6 +44,14 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/rules-settings.html">Rules</a>
                                 </li>
+                                <li class="dropdown-divider">
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/saveloadgame.html">Save/Load</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/statistics.html">Statistics</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -70,6 +78,15 @@
                         <input type="text" class="form-control" id="txtFriendlyName"
                             placeholder="Enter a friendly name for this node" name="txtFriendlyName"
                             value="%friendlyname%" maxlength="24" />
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="txtNTPServer" class="col-sm-2 col-form-label">NTP server:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtNTPServer"
+                            placeholder="Enter a server name or IP address" maxlength="63" name="txtNTPServer"
+                            value="%ntpserver%">
                     </div>
                 </div>
 
@@ -116,6 +133,22 @@
                     <div class="col-sm-10">
                         <input type="number" class="form-control" id="numPort" name="numPort" value="%mqtt-port%"
                             maxlength="5" min="1024" max="86400">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="txtUsername" class="col-sm-2 col-form-label">User name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtUsername" placeholder="Enter a user name"
+                            maxlength="63" name="txtUsername" value="%mqtt-username%">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="txtPassword" class="col-sm-2 col-form-label">Password:</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="txtPassword" maxlength="63" name="txtPassword"
+                            value="%mqtt-password%">
                     </div>
                 </div>
 

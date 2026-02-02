@@ -15,7 +15,6 @@ struct PlayerStatistics
     unsigned long FinishedMillis;
 
     uint16_t Kicked[NUMBEROFPLAYERS];
-    uint16_t KickedBy[NUMBEROFPLAYERS];
     uint16_t Rolls[6];
     uint16_t EmptyRolls[6];
     uint16_t TotalPips;

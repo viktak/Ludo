@@ -5,6 +5,8 @@
 
 #include <LittleFS.h>
 
+#define NUMBEROFGAMESLOTS 4
+
 void loopAsyncWebserver();
 void InitAsyncWebServer();
 

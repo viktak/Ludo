@@ -21,7 +21,6 @@ void GameStatistics::Reset()
         for (size_t i = 0; i < NUMBEROFPLAYERS; i++)
         {
             this->Player[j].Kicked[i] = 0;
-            this->Player[j].KickedBy[i] = 0;
             this->Player[j].Rolls[i] = 0;
             this->Player[j].EmptyRolls[i] = 0;
         }
@@ -42,8 +41,6 @@ void GameStatistics::Print()
             SerialMon.printf("\t... rolled %u %u times (%u blanks)\r\n", j + 1, Player[i].Rolls[j], Player[i].EmptyRolls[j]);
         for (size_t j = 0; j < NUMBEROFPLAYERS; j++)
             SerialMon.printf("\t... kicked out player #%u %u times.\r\n", j, Player[i].Kicked[j]);
-        for (size_t j = 0; j < NUMBEROFPLAYERS; j++)
-            SerialMon.printf("\t... was kicked out by player #%u %u times.\r\n", j, Player[i].KickedBy[j]);
     }
 
     SerialMon.println();

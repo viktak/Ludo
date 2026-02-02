@@ -15,6 +15,7 @@
 #define DEFAULT_AP_PASSWORD "esp12345678"
 #define DEFAULT_HOSTNAME "ludo"
 
+#define DEFAULT_NTP_SERVER "europe.pool.ntp.org"
 #define DEFAULT_TIMEZONE 13
 
 #define DEFAULT_HEARTBEAT_INTERVAL 300 //  seconds
@@ -50,6 +51,7 @@ char hostName[24];
 
 char friendlyName[32];
 
+char ntpServer[64];
 signed char timeZone;
 
 u_int heartbeatInterval;
@@ -63,6 +65,7 @@ char mqttPassword[64];
 
 //  Operation
 OPERATION_MODES opMode;
+bool useBeeper;
 
 //  Rules
 Rules rules;
@@ -112,30 +115,46 @@ String settings::GetDeviceMAC()
 void settings::PrintSettings()
 {
     SerialMon.println("====================================== App settings ======================================");
-    SerialMon.printf("App name\t\t%s\r\nAdmin password\t\t%s\r\nAP SSID\t\t\t%s\r\nAP Password\t\t%s\r\nTimezone\t\t%i\r\nHostname:\t\t%s\r\n"
-                     "MQTT Server\t\t%s\r\nMQTT Port\t\t%u\r\nMQTT TOPIC\t\t%s\r\nMQTT USER\t\t%s\r\nMQTT PASSWORD\t\t%s\r\n"
-                     "SSID\t\t\t%s\r\nHearbeat interval\t%u\r\n"
-                     "Operation mode\t\t%s\r\n",
-                     friendlyName, adminPassword, AccessPointSSID, AccessPointPassword, timeZone, hostName,
-                     mqttServer, mqttPort, mqttTopic, mqttUserName, mqttPassword, ssid,
-                     heartbeatInterval, GetOperationModeString());
+
+    SerialMon.printf("App name:\t\t%s\r\n", friendlyName);
+    SerialMon.printf("Hostname:\t\t%s\r\n", hostName);
+    SerialMon.printf("Admin password:\t\t%s\r\n", adminPassword);
+    SerialMon.printf("SSID:\t\t\t%s\r\n", ssid);
+    SerialMon.printf("AP SSID:\t\t%s\r\n", AccessPointSSID);
+    SerialMon.printf("AP Password:\t\t%s\r\n", AccessPointPassword);
+
+    SerialMon.printf("NTP server:\t\t%s\r\n", ntpServer);
+    SerialMon.printf("Timezone:\t\t%u\r\n", timeZone);
+
+    SerialMon.printf("MQTT server:\t\t%s\r\n", mqttServer);
+    SerialMon.printf("MQTT port:\t\t%u\r\n", mqttPort);
+    SerialMon.printf("MQTT topic:\t\t%s\r\n", mqttTopic);
+    SerialMon.printf("MQTT user:\t\t%s\r\n", mqttUserName);
+    SerialMon.printf("MQTT password:\t\t%s\r\n", mqttPassword);
+    SerialMon.printf("Beeper sounds:\t\t%s\r\n", useBeeper ? "yes" : "no");
+
+    SerialMon.printf("Hearbeat interval [s]:\t%u\r\n", heartbeatInterval);
+    SerialMon.printf("Operation mode:\t\t%s\r\n", GetOperationModeString());
+
+    SerialMon.printf("\r\nRules\r\n");
+    SerialMon.printf("Safe home:\t\t%s\r\n", rules.IsHomeSafe ? "yes" : "no");
+    SerialMon.printf("Assisted mode:\t\t%s\r\n", rules.AssistedMode ? "yes" : "no");
+
     SerialMon.println("==========================================================================================");
 }
 
 void settings::Save()
 {
-    prefs.begin(SETTINGS_NAME, false);
+    prefs.begin(SETTINGS_NAME, RW_MODE);
 
     char defaultHostname[24];
     sprintf(defaultHostname, "%s-%s", DEFAULT_HOSTNAME, GetDeviceMAC().substring(6).c_str());
 
     //  System
     prefs.putUChar("FAILED_BOOT_ATT", FailedBootAttempts);
+    prefs.putString("NTP_SERVER", ntpServer);
     prefs.putChar("TIMEZONE", timeZone);
-    if (heartbeatInterval > 59)
-        prefs.putUInt("HEARTBEAT_INTL", heartbeatInterval);
-    else
-        prefs.putUInt("HEARTBEAT_INTL", 60);
+    prefs.putUInt("HEARTBEAT_INTL", heartbeatInterval);
 
     prefs.putString("APP_NAME", friendlyName);
 
@@ -161,6 +180,7 @@ void settings::Save()
 
     //  Operation
     prefs.putUChar("OP_MODE", opMode);
+    prefs.putBool("USE_BEEPER", useBeeper);
 
     //  Rules
     prefs.putBool("ISHOMESAFE", rules.IsHomeSafe);
@@ -172,7 +192,7 @@ void settings::Save()
     Serial.println("Settings saved.");
 }
 
-void settings::Load(bool LoadDefaults)
+void settings::Load()
 {
     SetupFileSystem();
 
@@ -187,14 +207,12 @@ void settings::Load(bool LoadDefaults)
 
     sprintf(defaultHostname, "%s-%s", DEFAULT_HOSTNAME, GetDeviceMAC().substring(6).c_str());
 
-    prefs.begin(SETTINGS_NAME, false);
-
-    if (LoadDefaults)
-        prefs.clear(); //  clear all settings
+    prefs.begin(SETTINGS_NAME, RO_MODE);
 
     //  System
     FailedBootAttempts = prefs.getUChar("FAILED_BOOT_ATT", 0) + 1;
     timeZone = prefs.getChar("TIMEZONE", DEFAULT_TIMEZONE);
+    strcpy(ntpServer, (prefs.getString("NTP_SERVER", DEFAULT_NTP_SERVER)).c_str());
     heartbeatInterval = prefs.getUInt("HEARTBEAT_INTL", DEFAULT_HEARTBEAT_INTERVAL);
 
     strcpy(friendlyName, (prefs.getString("APP_NAME", DEFAULT_APP_FRIENDLY_NAME).c_str()));
@@ -214,6 +232,7 @@ void settings::Load(bool LoadDefaults)
 
     //  Operation
     opMode = static_cast<OPERATION_MODES>(prefs.getUChar("OP_MODE", DEFAULT_OPERATION_MODE));
+    useBeeper = prefs.getBool("USE_BEEPER", true);
 
     //  Rules
     rules.IsHomeSafe = prefs.getBool("ISHOMESAFE", false);
@@ -228,8 +247,4 @@ void settings::ClearNVS()
 {
     nvs_flash_erase(); // erase the NVS partition and...
     nvs_flash_init();  // initialize the NVS partition.
-}
-
-settings::settings()
-{
 }

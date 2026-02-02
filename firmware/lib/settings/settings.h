@@ -9,6 +9,9 @@
 #include "player.h"
 
 #define SerialMon Serial
+#define RW_MODE false
+#define RO_MODE true
+
 
 #define ESP_ACCESS_POINT_NAME_SIZE 63
 
@@ -48,6 +51,7 @@ public:
 
     char friendlyName[32];
 
+    char ntpServer[64];
     signed char timeZone;
 
     u_int heartbeatInterval;
@@ -65,21 +69,20 @@ public:
 
     //  Operation
     OPERATION_MODES opMode;
+    bool useBeeper;
 
     //  Rules
     Rules rules;
 
     //  functions
     void SetupFileSystem();
-    void Load(bool LoadDefaults = false);
+    void Load();
     void Save();
 
     void ClearNVS();
 
     String GetDeviceMAC();
     void PrintSettings();
-
-    settings();
 };
 
 #endif

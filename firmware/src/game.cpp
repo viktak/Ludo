@@ -19,7 +19,7 @@ Button2 Buttons[NUMBEROFPLAYERS];
 GameStages Stage;
 GameStatistics Statistics;
 
-unsigned long gameID = 0;
+char gameID[25];
 
 Player Players[6] = {
     Player(0),
@@ -197,6 +197,17 @@ bool IsPositionInFinish(const uint8_t playerID, const uint16_t pos)
         if (FinishPositions[NUMBEROFPIECESPERPLAYER * playerID + i] == pos)
             return true;
     return false;
+}
+
+//  Returns the number of (active) players in the current game
+uint8_t GetNumberOfActivePlayers()
+{
+    uint8_t numberOfPlayers = 0;
+    for (size_t i = 0; i < NUMBEROFPLAYERS; i++)
+        if (Players[i].IsActive)
+            numberOfPlayers++;
+
+    return numberOfPlayers;
 }
 
 //  Returns the ID of a player who has a piece at a specified position or -1, if the position is empty
@@ -472,7 +483,7 @@ void RefreshPieces(const uint8_t playerID)
 {
     if (Players[playerID].IsActive)
     {
-        SerialMon.printf("Player: #%u\r\n", playerID);
+        // SerialMon.printf("Player: #%u\r\n", playerID);
         for (size_t i = 0; i < NUMBEROFPIECESPERPLAYER; i++)
             strip.SetPixelColor(Players[playerID].Pieces[i].GetPosition() + DIE_LENGTH, Players[playerID].Color);
     }
@@ -684,7 +695,6 @@ void loopGame()
     }
     else
     {
-
         switch (Stage)
         {
         case GameStages::SelectPlayers:
@@ -709,7 +719,7 @@ void loopGame()
         case GameStages::PlayerRolling:
         {
             if (Statistics.Round < 1)
-                gameID = now();
+                sprintf(gameID, "%u%02u%02u%02u%02u%02u-%lu", year(), month(), day(), hour(), minute(), second(), millis());
 
             if (PlayerFinishedRolling)
             {
@@ -994,7 +1004,6 @@ void loopGame()
 
                     //  Update statistics
                     Statistics.Player[CurrentPlayerID].Kicked[(uint8_t)hitPlayerID]++;
-                    Statistics.Player[(uint8_t)hitPlayerID].KickedBy[CurrentPlayerID]++;
                 }
 
                 //  Update piece's position
